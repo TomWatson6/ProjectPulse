@@ -1,0 +1,5 @@
+{
+  "name": "Pulse.Domain",
+  "rootNamespace": "Pulse.Domain",
+  "noEngineReferences": true
+}

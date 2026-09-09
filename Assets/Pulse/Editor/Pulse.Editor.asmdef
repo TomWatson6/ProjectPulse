@@ -1,0 +1,6 @@
+{
+  "name": "Pulse.Editor",
+  "rootNamespace": "Pulse.Editor",
+  "references": ["Pulse.Domain", "Pulse.Runtime"],
+  "includePlatforms": ["Editor"]
+}
