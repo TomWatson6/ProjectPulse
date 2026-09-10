@@ -1,5 +1,5 @@
 {
   "name": "Pulse.Runtime",
   "rootNamespace": "Pulse",
-  "references": ["Pulse.Domain", "Unity.ugui"]
+  "references": ["Pulse.Domain", "Pulse.Music", "Unity.ugui"]
 }

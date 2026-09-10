@@ -19,3 +19,5 @@ TestResults/
 *.tmp
 *.log
 .DS_Store
+Songs/*
+!Songs/README.md

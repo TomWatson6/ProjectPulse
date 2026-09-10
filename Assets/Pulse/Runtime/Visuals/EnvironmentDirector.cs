@@ -11,7 +11,7 @@ namespace Pulse.Visuals
         private static Color Alpha(Color c,float a) { c.a=a; return c; }
         private static float Hash(int i) => Mathf.Repeat(Mathf.Sin(i*127.1f+311.7f)*43758.5453f,1);
 
-        public void Render(CameraDirector camera,float playerX,double beat,Theme theme,float energy,float pulse,GraphicsQualityProfile quality,bool reducedMotion)
+        public void Render(CameraDirector camera,float playerX,double beat,Theme theme,float energy,float pulse,GraphicsQualityProfile quality,bool reducedMotion,bool authoredEvents=true)
         {
             canvas.Begin();
             float cx=camera.CenterX, half=camera.HalfWidth+2;
@@ -89,7 +89,7 @@ namespace Pulse.Visuals
                 canvas.Quad(new Vector2(x,y),new Vector2(x+.23f,y+.18f),new Vector2(x+.23f,y+h),new Vector2(x,y+h-.18f),Alpha(theme.Secondary,.05f),Alpha(theme.Secondary,.13f));
                 canvas.Line(new Vector2(x,y+h-.18f),new Vector2(x+.23f,y+h),.018f,Alpha(theme.Accent,.3f));
             }
-            if(beat>=48 && beat<52 && !reducedMotion)
+            if(authoredEvents && beat>=48 && beat<52 && !reducedMotion)
             {
                 float age=(float)(beat-48);
                 canvas.Ring(sun,2.8f+age*5,.04f,Alpha(theme.Accent,Mathf.Exp(-age)),segments);

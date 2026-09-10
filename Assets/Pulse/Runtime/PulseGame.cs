@@ -19,6 +19,7 @@ namespace Pulse
         public VisualDirector Visuals { get; private set; }
         public PulseHud Hud { get; private set; }
         public LevelDefinition Level { get; private set; }
+        public Pulse.Laboratory.AudioLabController Laboratory { get; private set; }
         public bool Verification { get; private set; }
         public bool ReferenceReplay { get; set; }
         public double LastAdvancePosition { get; private set; }
@@ -46,6 +47,7 @@ namespace Pulse
             input=Application.isMobilePlatform ? (IGameplayInputProvider)new TouchInputProvider() : new DesktopInputProvider();
             Visuals=new VisualDirector(transform,gameCamera,Level,tuning);
             Hud=new PulseHud(this,transform);
+            Laboratory=gameObject.AddComponent<Pulse.Laboratory.AudioLabController>(); Laboratory.Initialize(this);
             initialized=true;
             if(!Transport.Ready) Debug.LogError("Afterlight audio is missing or not loaded. Run Project Pulse > Prepare vertical slice.");
             if(Verification) gameObject.AddComponent<Pulse.Verification.PlayerVerification>().Initialize(this);
@@ -53,6 +55,7 @@ namespace Pulse
 
         public void StartRun()
         {
+            if(Laboratory!=null && Laboratory.IsOpen) return;
             if(!Transport.Ready) return;
             Hud.HideSettings();
             inputs.Clear(); referenceIndex=0; Simulation.Reset(); Visuals.Reset();
@@ -75,6 +78,7 @@ namespace Pulse
             if(!initialized) return;
             fps=Mathf.Lerp(fps,1/Mathf.Max(.0001f,Time.unscaledDeltaTime),.08f);
             if(UnityEngine.Input.GetKeyDown(KeyCode.F11)) Display.Toggle();
+            if(Laboratory.IsOpen) { Laboratory.Tick(); return; }
             if(UnityEngine.Input.GetKeyDown(KeyCode.F3)) Hud.DebugVisible=!Hud.DebugVisible;
             GameplayActions actions=input.Poll();
             if(actions.Pause) TogglePause();

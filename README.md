@@ -2,6 +2,14 @@
 
 A Unity/C# rhythm runner built around **music, movement and spectacle**. Milestone 1 is a manually authored, 45-second journey with an original electronic score at 128 BPM.
 
+The **Audio Laboratory** now adds local MP3/WAV discovery, deterministic music analysis, cached SongMaps and an interactive timeline. The authored Afterlight runner remains intact.
+
+## Analyse your music
+
+Put an MP3/WAV in `Builds/Windows/Songs`, launch the player and choose **Audio Lab → select song → Analyse → Play**. For Unity Play mode, use the repository's `Songs` folder. A different folder can be saved inside the browser. Scroll to zoom, drag to scrub, toggle layers and enable the visual sandbox. Space plays/pauses; Escape returns to Afterlight.
+
+See the [Audio Laboratory guide](docs/AUDIO_LAB.md) for imports, controls, caching, overrides and analysis limitations. This milestone visualises music; it does not generate levels. [Validation](docs/AUDIO_LAB_VALIDATION.md) records the tests and preserved-runner checks.
+
 ## Play
 
 If the Windows build has been generated, open **`Builds/Windows/Project Pulse.exe`**. Keep its accompanying files and `Project Pulse_Data` folder together. Select **Begin Run**, or press Space. Your first obstacle arrives after eight beats; the small light markers indicate intended takeoff positions.
@@ -34,6 +42,7 @@ The dependency-free domain test runner compiles the actual C# simulation files:
 
 ```powershell
 dotnet run --project Tests/Pulse.Domain.Tests.csproj --configuration Release
+dotnet run --project Tests/Pulse.Music.Tests.csproj --configuration Release
 ```
 
 The local harness targets the installed .NET 7 SDK. This is a test-host choice; Unity uses its own compiler and .NET Standard API profile. There are no third-party NuGet test packages.
@@ -59,4 +68,4 @@ For the actual player smoke test, use `scripts/Verify-Player.ps1`. It runs a del
 
 Changing BPM or the score requires updating the authored chart/timeline together and regenerating the WAV. Changing movement parameters requires re-running the chart replay tests; there is deliberately no procedural solvability system in this milestone.
 
-The complete product vision is in `docs/PRD.md`. Architecture and timing details are in `docs/ARCHITECTURE.md`. The most appropriate next task is a hands-on movement/audio calibration pass on the intended PC hardware, followed by Milestone 2's expanded manually authored visual showcase.
+The complete vision is in `docs/PRD.md`; timing details are in `docs/ARCHITECTURE.md`. Before procedural generation, the next task is a listening/annotation pass on representative electronic and Suno songs, measuring beat/transition errors and improving adaptive tempo, downbeat inference and uncertainty handling. Physical movement/audio calibration on the intended hardware remains important.

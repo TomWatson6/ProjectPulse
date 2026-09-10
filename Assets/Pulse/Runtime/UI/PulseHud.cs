@@ -23,6 +23,7 @@ namespace Pulse.UI
         private float nextHud;
         private RunState lastState=(RunState)(-1);
         public bool SettingsOpen => settings.activeSelf;
+        public void SetVisible(bool visible) { safe.parent.gameObject.SetActive(visible); }
         public bool DebugVisible { get => debug.activeSelf; set => debug.SetActive(value); }
         private static readonly Color Ink=new Color(.018f,.038f,.065f,.97f);
         private static readonly Color Mint=new Color(.50f,1,.88f);
@@ -53,6 +54,7 @@ namespace Pulse.UI
             Label(title.transform,"128 BPM     /     ORIGINAL SCORE     /     00:45",78,564,610,25,13,Mint);
             Button(title.transform,"BEGIN RUN   >",78,621,270,62,game.StartRun,true);
             Button(title.transform,"SETTINGS",366,621,178,62,ShowSettings);
+            Button(title.transform,"AUDIO LAB",562,621,182,62,() => game.Laboratory.Open());
             Label(title.transform,"SPACE / CLICK  jump       R  restart       ESC  pause",78,714,690,28,14,Muted);
             var edition=Label(title.transform,"RHYTHM RUNNER\nMILESTONE 01",-304,40,250,58,12,Muted);
             Anchor(edition.rectTransform,new Vector2(1,1)); edition.alignment=TextAnchor.UpperRight;

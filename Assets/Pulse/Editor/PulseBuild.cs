@@ -61,6 +61,8 @@ namespace Pulse.Editor
         {
             Prepare();
             Directory.CreateDirectory("Builds/Windows");
+            Directory.CreateDirectory("Builds/Windows/Songs");
+            File.Copy("Songs/README.md","Builds/Windows/Songs/README.md",true);
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {
                 scenes=new[]{ScenePath},locationPathName="Builds/Windows/Project Pulse.exe",
                 target=BuildTarget.StandaloneWindows64,options=BuildOptions.None });

@@ -1,5 +1,7 @@
 # Milestone 1 verification
 
+This records the original milestone. The subsequent Audio Laboratory and full preserved-runner regression are recorded in [AUDIO_LAB_VALIDATION.md](AUDIO_LAB_VALIDATION.md).
+
 Verified on 9 September 2026 with Unity **2022.3.12f1**, a Windows x64 Mono player, Direct3D 11 and an NVIDIA GeForce RTX 3080 Ti. The final Windows build succeeded with no script or shader errors. Build report size: **77,836,122 bytes**.
 
 ## Automated domain tests

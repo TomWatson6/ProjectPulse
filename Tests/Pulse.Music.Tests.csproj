@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net7.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems><ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup><Compile Include="../Assets/Pulse/Music/**/*.cs" /><Compile Include="MusicTests.cs" /></ItemGroup>
+</Project>

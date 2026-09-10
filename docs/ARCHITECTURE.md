@@ -1,5 +1,7 @@
 # Milestone 1 architecture
 
+The authored runner architecture below remains intact. The additive Audio Laboratory is documented in [AUDIO_LAB.md](AUDIO_LAB.md), with its pre-implementation preservation boundary in [AUDIO_LAB_PLAN.md](AUDIO_LAB_PLAN.md). `Pulse.Music` owns the Unity-independent data/DSP/cache/source contracts; a separate laboratory controller owns imported clips, worker jobs, UI and transport. The original 240 Hz runner, authored chart, clock and rendering path are unchanged. Only an explicit input-ownership gate, title entry, additive transport methods and separate visual sandbox entry point connect the systems.
+
 The product source of truth is [PRD.md](PRD.md). [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) records the proposal made before implementation.
 
 ## Ownership

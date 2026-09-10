@@ -1,6 +1,7 @@
 using Pulse.Domain;
 using Pulse.Rendering;
 using Pulse.World;
+using Pulse.Music;
 using UnityEngine;
 
 namespace Pulse.Visuals
@@ -22,6 +23,7 @@ namespace Pulse.Visuals
         private int trailCount, trailCursor;
         private float lastTrailTime;
         private int lastBeat=-1;
+        private double lastMusicTime=-1;
         public VisualDirector(Transform parent,Camera camera,LevelDefinition level,RunnerTuning tuning)
         {
             Camera=new CameraDirector(camera); environment=new EnvironmentDirector(parent);
@@ -32,6 +34,27 @@ namespace Pulse.Visuals
         }
         public void SetQuality(GraphicsTier tier) { Quality=new GraphicsQualityProfile(tier); particles.Clear(); PlayerPrefs.SetInt("pulse.quality",(int)tier); }
         public void Reset() { particles.Clear(); trailCount=trailCursor=0; lastTrailTime=-1; lastBeat=-1; }
+        public void ResetMusic() { Reset(); lastMusicTime=-1; }
+        public void RenderMusic(SongMap map,double time,bool reactive,bool playing,float now)
+        {
+            float energy=reactive && map!=null?map.IntensityAt(time):.25f;
+            var beat=reactive?map?.CurrentBeat(time):null;
+            float pulse=beat==null?0:Mathf.Exp(-(float)(time-beat.Time)*12)*beat.Strength;
+            CurrentTheme=Theme.Cool;
+            Camera.Evaluate(0,0,energy,true); // No authored beat-48 camera cue for arbitrary music.
+            environment.Render(Camera,0,time/LevelDefinition.BeatSeconds,CurrentTheme,energy,pulse,Quality,ReducedMotion,false);
+            world.Clear(); foreground.Begin();
+            if(time<lastMusicTime || time-lastMusicTime>.3) particles.Clear();
+            if(reactive && playing && map!=null && lastMusicTime>=0 && time>=lastMusicTime && time-lastMusicTime<.3)
+            {
+                for(int i=map.NextOnsetIndex(lastMusicTime);i<map.Onsets.Length && map.Onsets[i].Time<=time;i++)
+                    if(map.Onsets[i].Strength>.55f) particles.Burst(new Vector2(Camera.CenterX+3.4f,4.55f),CurrentTheme.Accent,ReducedMotion?2:8,now,Quality.ParticleCapacity,.6f+energy);
+                foreach(var moment in map.Moments)
+                    if(moment.Kind==MomentKind.Drop && moment.Time>lastMusicTime && moment.Time<=time)
+                        particles.Burst(new Vector2(Camera.CenterX+3.4f,4.55f),CurrentTheme.Secondary,ReducedMotion?4:Quality.ParticleCapacity/3,now,Quality.ParticleCapacity,2);
+            }
+            particles.Render(foreground,now,Quality.ParticleCapacity,Quality.Glow); foreground.End(); lastMusicTime=time;
+        }
         public void OnJump(PlayerState player,float now) => particles.Burst(new Vector2((float)player.X,(float)player.Y-.3f),Theme.Cool.Accent,8,now,Quality.ParticleCapacity);
         public void OnLand(PlayerState player,float now) => particles.Burst(new Vector2((float)player.X,(float)player.Y-.3f),CurrentTheme.Accent,12,now,Quality.ParticleCapacity,.65f);
         public void OnDeath(PlayerState player,float now) => particles.Burst(new Vector2((float)player.X,(float)player.Y),CurrentTheme.Hazard,Quality.ParticleCapacity/3,now,Quality.ParticleCapacity,2);

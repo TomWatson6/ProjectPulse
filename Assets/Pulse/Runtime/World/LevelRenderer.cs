@@ -13,6 +13,7 @@ namespace Pulse.World
         public LevelRenderer(Transform parent,LevelDefinition level,RunnerTuning tuning)
         { canvas=MeshCanvas.Create("Readable geometry",10,parent); this.level=level; this.tuning=tuning; }
         private static Color Alpha(Color c,float a) { c.a=a; return c; }
+        public void Clear() { canvas.Begin(); canvas.End(); }
 
         public void Render(CameraDirector camera,double songTime,Theme theme,float pulse,bool glow)
         {
